@@ -2,7 +2,8 @@ mod accounting;
 mod api;
 mod connection;
 mod server;
-mod validator_peer;
+// mod validator_peer;
+mod validator_dummy;
 
 #[cfg(feature = "db")]
 mod db;
@@ -20,7 +21,8 @@ use tracing::{debug, error, info, warn};
 use tracing_log::{log, LogTracer};
 use tracing_subscriber::{layer::SubscriberExt, EnvFilter};
 
-use crate::validator_peer::Node;
+// use crate::validator_peer::Node;
+use crate::validator_dummy::Node;
 use crate::{
     accounting::{Accounting, AccountingMessage},
     //    operator_peer::Node,
@@ -129,7 +131,8 @@ async fn main() {
 
     let server = Server::init(port, address, node.sender(), accounting.sender()).await;
 
-    validator_peer::start(node, server.sender());
+    //validator_peer::start(node, server.sender());
+    validator_dummy::start(node, server.sender());
 
     api::start(opt.api_port, accounting.clone(), server.clone());
 

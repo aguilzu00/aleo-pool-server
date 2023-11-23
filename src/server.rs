@@ -40,7 +40,8 @@ use tokio::{
 };
 use tracing::{debug, error, info, trace, warn};
 
-use crate::{connection::Connection, validator_peer::SnarkOSMessage, AccountingMessage};
+// use crate::{connection::Connection, validator_peer::SnarkOSMessage, AccountingMessage};
+use crate::{connection::Connection, validator_dummy::SnarkOSMessage, AccountingMessage};
 
 struct ProverState {
     peer_addr: SocketAddr,

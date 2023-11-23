@@ -110,3 +110,6 @@ target/
 .env
 *.iml
 *~
+
+#._.DS_Store from mac
+._.*
