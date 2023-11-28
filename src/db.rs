@@ -13,7 +13,7 @@ use deadpool_postgres::{
     RecyclingMethod,
     Runtime,
 };
-use snarkvm::prelude::{PuzzleCommitment, Testnet3};
+use snarkvm::prelude:{PuzzleCommitment, Testnet3};
 use tokio_postgres::NoTls;
 use tracing::warn;
 

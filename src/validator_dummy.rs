@@ -8,8 +8,9 @@ use std::{
 use rand::{rngs::OsRng, Rng};
 use snarkvm::{
     prelude::{Testnet3, Network},
-    synthesizer::EpochChallenge,
+    ledger::coinbase::EpochChallenge,
 };
+
 use tokio::{
     sync::{
         mpsc,
@@ -25,11 +26,11 @@ use crate::ServerMessage;
 
 pub struct Node {
     operator: String,
-    sender: Arc<Sender<SnarkOSMessage>>,
-    receiver: Arc<Mutex<Receiver<SnarkOSMessage>>>,
+    // sender: Arc<Sender<SnarkOSMessage>>,
+    // receiver: Arc<Mutex<Receiver<SnarkOSMessage>>>,
+    sender: Arc<Sender<String>>,
+    receiver: Arc<Mutex<Receiver<String>>>,
 }
-
-pub(crate) type SnarkOSMessage = snarkos_node_messages::Message<Testnet3>;
 
 impl Node {
     pub fn init(operator: String) -> Self {
@@ -41,14 +42,18 @@ impl Node {
         }
     }
 
-    pub fn receiver(&self) -> Arc<Mutex<Receiver<SnarkOSMessage>>> {
+    // pub fn receiver(&self) -> Arc<Mutex<Receiver<SnarkOSMessage>>> {
+    pub fn receiver(&self) -> Arc<Mutex<Receiver<String>>> {
         self.receiver.clone()
     }
 
-    pub fn sender(&self) -> Arc<Sender<SnarkOSMessage>> {
+    pub fn sender(&self) -> Arc<Sender<String>> {
         self.sender.clone()
     }
 }
+
+pub(crate) type SnarkOSMessage = snarkos_node_router_messages::Message<Testnet3>;
+
 
 pub fn start(node: Node, server_sender: Sender<ServerMessage>) {
     let receiver = node.receiver();
@@ -57,13 +62,14 @@ pub fn start(node: Node, server_sender: Sender<ServerMessage>) {
         task::spawn(async move {
 
             let mut epoch_number = 100;
+            let proof_target = 100;
+            
             loop {
                 epoch_number += 1;
 
                 let rng = &mut OsRng;
                 let epoch_block_hash : <Testnet3 as Network>::BlockHash = rng.gen();
                 let epoch_challenge = EpochChallenge::<Testnet3>::new(epoch_number, epoch_block_hash, 1024*6).unwrap();
-                let proof_target = 100;
 
                 if let Err(e) = server_sender.send(ServerMessage::NewEpochChallenge(
                     epoch_challenge, proof_target
@@ -83,8 +89,10 @@ pub fn start(node: Node, server_sender: Sender<ServerMessage>) {
             loop {
                 tokio::select! {
                     Some(message) = receiver.recv() => {
-                        trace!("dummy Sending {} to validator {}", message.name(), node.operator);
-                    }}
+                        trace!("dummy Sending {} to validator {}", message, node.operator);
+                    }
+
+                }
             }
         }
     });

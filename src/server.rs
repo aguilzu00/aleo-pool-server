@@ -14,13 +14,17 @@ use anyhow::ensure;
 use blake2::Digest;
 use flurry::HashSet as FlurryHashSet;
 use json_rpc_types::{Error, ErrorCode, Id};
-use snarkos_node_messages::{Data, UnconfirmedSolution};
+use snarkos_node_router_messages::{UnconfirmedSolution};
 use snarkvm::{
-    circuit::PrimeField,
+    ledger::narwhal::Data,
+    prelude::{ ToBytes, Testnet3, Environment, UniversalSRS },
+    ledger::coinbase::{ CoinbasePuzzle, EpochChallenge, PuzzleConfig, PartialSolution, ProverSolution, PuzzleCommitment},
     console::account::address::Address,
-    prelude::{Environment, PartialSolution, ProverSolution, Testnet3, ToBytes},
-    synthesizer::{CoinbasePuzzle, EpochChallenge, PuzzleCommitment, PuzzleConfig, UniversalSRS},
 };
+use snarkvm_fields::PrimeField;
+
+// use snarkvm_console_network::{Testnet3, Network};
+
 use snarkvm_algorithms::{
     cfg_into_iter,
     crypto_hash::sha256d_to_u64,
@@ -39,6 +43,9 @@ use tokio::{
     task,
 };
 use tracing::{debug, error, info, trace, warn};
+
+use rayon::prelude::*;
+
 
 // use crate::{connection::Connection, validator_peer::SnarkOSMessage, AccountingMessage};
 use crate::{connection::Connection, validator_dummy::SnarkOSMessage, AccountingMessage};
@@ -222,7 +229,8 @@ impl Display for ServerMessage {
 
 pub struct Server {
     sender: Sender<ServerMessage>,
-    validator_sender: Arc<Sender<SnarkOSMessage>>,
+    // validator_sender: Arc<Sender<SnarkOSMessage>>,
+    validator_sender: Arc<Sender<String>>,
     accounting_sender: Sender<AccountingMessage>,
     pool_address: Address<Testnet3>,
     connected_provers: RwLock<HashSet<SocketAddr>>,
@@ -241,7 +249,8 @@ impl Server {
     pub async fn init(
         port: u16,
         address: Address<Testnet3>,
-        validator_sender: Arc<Sender<SnarkOSMessage>>,
+        //validator_sender: Arc<Sender<SnarkOSMessage>>,
+        validator_sender: Arc<Sender<String>>,
         accounting_sender: Sender<AccountingMessage>,
     ) -> Arc<Server> {
         let (sender, mut receiver) = channel(1024);
@@ -696,14 +705,20 @@ impl Server {
                             prover_display, proof_difficulty, global_proof_target
                         );
                         // TODO: dummy operator
+                        // if let Err(e) = validator_sender
+                        //     .send(SnarkOSMessage::UnconfirmedSolution(UnconfirmedSolution {
+                        //         puzzle_commitment: PuzzleCommitment::new(commitment),
+                        //         solution: Data::Object(ProverSolution::<Testnet3>::new(
+                        //             PartialSolution::<Testnet3>::new(pool_address, nonce, commitment),
+                        //             proof,
+                        //         )),
+                        //     }))
+                        //     .await
+                        // {
+                        //     error!("Failed to report unconfirmed block to operator: {}", e);
+                        // }
                         if let Err(e) = validator_sender
-                            .send(SnarkOSMessage::UnconfirmedSolution(UnconfirmedSolution {
-                                puzzle_commitment: PuzzleCommitment::new(commitment),
-                                solution: Data::Object(ProverSolution::<Testnet3>::new(
-                                    PartialSolution::<Testnet3>::new(pool_address, nonce, commitment),
-                                    proof,
-                                )),
-                            }))
+                            .send("xiaoyu1998 receive a solution".to_string())
                             .await
                         {
                             error!("Failed to report unconfirmed block to operator: {}", e);

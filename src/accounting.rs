@@ -14,7 +14,10 @@ use savefile::{load_file, save_file};
 use savefile_derive::Savefile;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use snarkvm::prelude::{PuzzleCommitment, Testnet3};
+// use snarkvm::prelude::{PuzzleCommitment, Testnet3};
+use snarkvm::prelude::{Testnet3};
+use snarkvm::prelude::coinbase::{PuzzleCommitment};
+
 use tokio::{
     sync::{
         mpsc::{channel, Sender},

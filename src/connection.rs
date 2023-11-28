@@ -12,8 +12,8 @@ use anyhow::{anyhow, Result};
 use futures_util::SinkExt;
 use semver::Version;
 use snarkvm::{
+    prelude::{ Environment, Testnet3, FromBytes},
     console::account::address::Address,
-    prelude::{Environment, FromBytes, Testnet3},
 };
 use snarkvm_algorithms::polycommit::kzg10::{KZGCommitment, KZGProof};
 use tokio::{

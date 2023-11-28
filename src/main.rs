@@ -15,7 +15,10 @@ use futures::stream::StreamExt;
 use rand::seq::SliceRandom;
 use signal_hook::consts::{SIGABRT, SIGHUP, SIGINT, SIGQUIT, SIGTERM, SIGTSTP, SIGUSR1};
 use signal_hook_tokio::Signals;
-use snarkvm::{console::account::address::Address, prelude::Testnet3};
+use snarkvm::{
+    prelude::Testnet3,
+    console::account::address::Address,
+};
 use tokio::sync::mpsc::Sender;
 use tracing::{debug, error, info, warn};
 use tracing_log::{log, LogTracer};
@@ -130,6 +133,8 @@ async fn main() {
     let node = Node::init(validator);
 
     let server = Server::init(port, address, node.sender(), accounting.sender()).await;
+
+    // let server = Server::init(port, address, accounting.sender()).await;
 
     //validator_peer::start(node, server.sender());
     validator_dummy::start(node, server.sender());
