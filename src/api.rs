@@ -1,7 +1,7 @@
 use std::{convert::Infallible, net::SocketAddr, sync::Arc};
 
 use serde_json::json;
-use snarkvm::{console::account::address::Address, prelude::Testnet3};
+use snarkvm::{console::types::Address, prelude::Testnet3};
 use tokio::task;
 use tracing::info;
 use warp::{

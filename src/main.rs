@@ -17,7 +17,7 @@ use signal_hook::consts::{SIGABRT, SIGHUP, SIGINT, SIGQUIT, SIGTERM, SIGTSTP, SI
 use signal_hook_tokio::Signals;
 use snarkvm::{
     prelude::Testnet3,
-    console::account::address::Address,
+    console::types::Address,
 };
 use tokio::sync::mpsc::Sender;
 use tracing::{debug, error, info, warn};

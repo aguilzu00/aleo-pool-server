@@ -19,7 +19,7 @@ use snarkvm::{
     ledger::narwhal::Data,
     prelude::{ ToBytes, Testnet3, Environment, UniversalSRS },
     ledger::coinbase::{ CoinbasePuzzle, EpochChallenge, PuzzleConfig, PartialSolution, ProverSolution, PuzzleCommitment},
-    console::account::address::Address,
+    console::types::Address,
 };
 use snarkvm_fields::PrimeField;
 

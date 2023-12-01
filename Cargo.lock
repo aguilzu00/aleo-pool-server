@@ -489,6 +489,13 @@ name = "cache"
 version = "0.1.0"
 
 [[package]]
+name = "cactus-timer"
+version = "0.1.0"
+dependencies = [
+ "colored",
+]
+
+[[package]]
 name = "cast"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2924,6 +2931,7 @@ dependencies = [
  "aleo-std",
  "anyhow",
  "blake2",
+ "cactus-timer",
  "cfg-if",
  "fxhash",
  "hashbrown 0.14.3",
@@ -3919,6 +3927,7 @@ dependencies = [
  "anyhow",
  "bincode",
  "blake2",
+ "cactus-timer",
  "indexmap 2.1.0",
  "rayon",
  "serde_json",
