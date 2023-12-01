@@ -69,7 +69,7 @@ pub fn start(node: Node, server_sender: Sender<ServerMessage>) {
 
                 let rng = &mut OsRng;
                 let epoch_block_hash : <Testnet3 as Network>::BlockHash = rng.gen();
-                let epoch_challenge = EpochChallenge::<Testnet3>::new(epoch_number, epoch_block_hash, 1024*6).unwrap();
+                let epoch_challenge = EpochChallenge::<Testnet3>::new(epoch_number, epoch_block_hash, (1 << 9) - 1 ).unwrap();
 
                 if let Err(e) = server_sender.send(ServerMessage::NewEpochChallenge(
                     epoch_challenge, proof_target
