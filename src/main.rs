@@ -134,8 +134,6 @@ async fn main() {
 
     let server = Server::init(port, address, node.sender(), accounting.sender()).await;
 
-    // let server = Server::init(port, address, accounting.sender()).await;
-
     //validator_peer::start(node, server.sender());
     validator_dummy::start(node, server.sender());
 

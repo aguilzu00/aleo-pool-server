@@ -18,8 +18,8 @@ snarkvm-algorithms = { path = "../snarkVM/algorithms" }
 snarkvm-fields = { path = "../snarkVM/fields" }
 snarkvm-curves = { path = "../snarkVM/curves" }
 snarkvm-utilities = { path = "../snarkVM/utilities" }
-snarkos-account = { path = "../snarkOS/account" }
-snarkos-node-router-messages = { path = "../snarkOS/node/router/messages" }
+#snarkos-account = { path = "../snarkOS/account" }
+#snarkos-node-router-messages = { path = "../snarkOS/node/router/messages" }
 
 #snarkvm = { path = "../../src/snarkVM" }
 #snarkvm = { git = "https://github.com/HarukaMa/snarkVM.git", branch = "unchecked" }
@@ -28,8 +28,8 @@ snarkos-node-router-messages = { path = "../snarkOS/node/router/messages" }
 #snarkvm-algorithms = "0.9.13"
 #snarkvm-curves = "0.9.13"
 #snarkvm-utilities = "0.9.13"
-#snarkos-account = { git = "https://github.com/AleoHQ/snarkOS.git", branch = "testnet3" }
-#snarkos-node-router-messages = { git = "https://github.com/AleoHQ/snarkOS.git", branch = "testnet3" }
+snarkos-account = { git = "https://github.com/AleoHQ/snarkOS.git", branch = "testnet3" }
+snarkos-node-router-messages = { git = "https://github.com/AleoHQ/snarkOS.git", branch = "testnet3" }
 
 tracing = "0.1.37"
 tracing-log = "0.1.3"
